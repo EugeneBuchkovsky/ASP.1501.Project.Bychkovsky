@@ -1,0 +1,30 @@
+﻿@model IEnumerable<PL.WEB.Models.BlogViewModel>
+
+@{
+    ViewBag.Title = "ViewBlogs";
+}
+<div class="col-md-offset-2">
+    <h2>@ViewBag.profile.FirstName 's blogs:</h2>
+</div>
+<hr/>
+
+@if(User.Identity.IsAuthenticated && User.Identity.Name == ViewBag.user.Email)
+{
+    <div class="col-md-offset-2">
+        @Html.ActionLink("Create new blog", "CreateBlog")
+    </div>
+}
+<ul class="col-md-offset-2 col-md-6">
+@foreach (var m in Model)
+{
+    <li class="lead"><a href="@Url.Action("ViewArticles", "Article", new {id=m.Id })"><p class="text-justify">@Html.DisplayTextFor(Item=>m.Title)</p></a></li>
+    <span class="small">
+        @if(User.Identity.IsAuthenticated && User.Identity.Name == ViewBag.user.Email)
+        {
+            @Html.ActionLink("Edit ", "UpdateBlog", new { id=m.Id })
+
+            @Html.ActionLink(" Delete", "DeleteBlog", new { id=m.Id })
+        }
+    </span>
+}
+</ul>

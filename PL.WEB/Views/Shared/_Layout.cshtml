@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/Site.css")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header>
+        @*<div class="navbar navbar-inverse navbar-fixed-top">*@
+        <div class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @*@Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })*@
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                        <li>@Html.ActionLink("Home", "ViewProfile", "Profile")</li>
+                        }
+                        <li>@Html.ActionLink("Articles", "Index", "Article")</li>
+                        <li>@Html.ActionLink("Search", "ViewSearch", "Search")</li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Search", "ViewSearch", "Search")</li>
+                        }
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Log in", "Login", "Account")</li>
+                            <li>@Html.ActionLink("Registration", "Register", "Account")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Log off", "LogOff", "Account")</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div class ="body">
+        @*@RenderSection("featured", required: false)*@
+        @RenderBody()
+    </div>
+    
+    <footer>
+            <div class="content-wrapper">
+                <div>
+                    <p>&copy; @DateTime.Now.Year — ASP.NET MVC</p>
+                </div>
+            </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

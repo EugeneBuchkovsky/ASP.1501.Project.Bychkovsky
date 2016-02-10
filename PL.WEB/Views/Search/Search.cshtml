@@ -1,0 +1,43 @@
+﻿@model IEnumerable< PL.WEB.Models.ArticleViewModel>
+
+@{
+    Layout = null;
+}
+
+<div id="SearcResult" class="col-md-offset-2">
+
+    <h3>Search result</h3>
+    <hr/>
+        @foreach(var m in Model)
+        {
+            <div class="row">
+         <div class="col-md-6">
+            <div class="lead">
+                <a href="@Url.Action("Details", "Article", new {id=m.Id })"><p class="text-justify">@Html.DisplayTextFor(Item=>m.Title)</p></a>
+            </div>
+    
+            <span>
+                @Html.DisplayFor(modelItem=>m.CreationDate) | 
+                Comments: @Html.DisplayFor(modelItem=>m.CommentsCount)
+            </span>
+            
+             <div class="small">
+            @*<span ">*@
+                @if(User.Identity.IsAuthenticated && User.Identity.Name == ViewBag.user.Email)
+                {
+                    @Html.ActionLink("Edit ", "Edit", new { id=m.Id })
+
+                    @Html.ActionLink(" Delete", "Delete", new { id=m.Id })
+                }
+            @*</span>*@
+            </div>
+        </div>
+
+    </div>
+        }
+    
+
+
+
+</div>
+

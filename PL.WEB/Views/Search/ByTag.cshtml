@@ -1,0 +1,28 @@
+﻿@model  IEnumerable<PL.WEB.Models.ArticleViewModel>
+
+@{
+    ViewBag.Title = "ByTag";
+}
+
+<div class="col-md-offset-2">
+    <h2>Search by tag " @ViewBag.tag.Name "</h2>
+</div>
+<hr/>
+
+
+@foreach (var m in Model)
+{
+    <div class="row">
+         <div class="col-md-offset-2 col-md-6">
+            <div class="lead">
+                <a href="@Url.Action("Details", "Article", new {id=m.Id })"><p class="text-justify">@Html.DisplayTextFor(Item=>m.Title)</p></a>
+            </div>
+    
+            <span>
+                @Html.DisplayFor(modelItem=>m.CreationDate) | 
+                Comments: @Html.DisplayFor(modelItem=>m.CommentsCount)
+            </span>
+        </div>
+
+    </div>
+}

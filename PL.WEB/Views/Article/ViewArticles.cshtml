@@ -1,0 +1,86 @@
+﻿@model PagedList.IPagedList<PL.WEB.Models.ArticleViewModel>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "ViewArticles";
+}
+<div class="col-md-offset-2">
+<h2>Blog: @ViewBag.Blog.Title /</h2>
+<hr/>
+</div>
+@if(User.Identity.IsAuthenticated && User.Identity.Name == ViewBag.user.Email)
+{
+    <div class="col-md-offset-2">
+    @Html.ActionLink("Add new article", "Create", new {id = @ViewBag.Blog.Id })
+    </div>
+    <hr/>
+}
+
+@foreach (var m in Model)
+{
+    <div class="row">
+         <div class="col-md-offset-2 col-md-6">
+            <div class="lead">
+                <a href="@Url.Action("Details", "Article", new {id=m.Id })"><p class="text-justify">@Html.DisplayTextFor(Item=>m.Title)</p></a>
+            </div>
+    
+            <span>
+                @Html.DisplayFor(modelItem=>m.CreationDate) | 
+                Comments: @Html.DisplayFor(modelItem=>m.CommentsCount)
+            </span>
+            
+             <div class="small">
+            @*<span ">*@
+                @if(User.Identity.IsAuthenticated && User.Identity.Name == ViewBag.user.Email)
+                {
+                    @Html.ActionLink("Edit ", "Edit", new { id=m.Id })
+
+                    @Html.ActionLink(" Delete", "Delete", new { id=m.Id })
+                }
+            @*</span>*@
+            </div>
+        </div>
+
+    </div>
+}
+    
+
+<div class="row col-md-offset-1 small">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("ViewArticles",  new {id=@ViewBag.Blog.Id,page = page }))
+</div>
+
+@*<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ArticleText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArticleText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreationDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit article", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete article", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>*@

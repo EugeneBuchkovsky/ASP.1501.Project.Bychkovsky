@@ -1,0 +1,107 @@
+﻿@model PL.WEB.Models.ArticleViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="col-md-offset-1">
+    <h2>Article: @Html.DisplayFor(model => model.Title)</h2>
+</div>
+<hr/>
+
+<div class="row col-md-offset-1 col-md-8">
+    <span>
+        Tags: 
+        @foreach (var t in @ViewBag.Tags)
+        {
+            <a href="@Url.Action("ByTag", "Search", new { tagName = t.Name })"> @t.Name </a>
+        }
+    </span>      
+</div>
+
+<div class="row col-md-8">
+<hr/>
+</div>
+
+<div class="row col-md-offset-2 col-md-8">
+    @Html.DisplayFor(model => model.ArticleText, new { htmlAttributes = new { @class = "text-justify" } })
+</div>
+@if(User.Identity.IsAuthenticated && User.Identity.Name == ViewBag.user.Email)
+{
+    <div class="col-md-offset-10">
+        <a href="@Url.Action("Edit", new {id = @Model.Id})">Edit</a>
+    </div>
+}
+<div class="row col-md-offset-1 col-md-2 small">
+    <div>
+    Author: <a href="@Url.Action("ViewProfile", "Profile", new {id=ViewBag.profile.Id })">@ViewBag.profile.FirstName
+    @ViewBag.profile.LastName
+    </a>
+    </div>
+    <div>
+    Blog: <a href="@Url.Action("ViewArticles", "Article", new {id = Model.BlogId })">@ViewBag.Blog.Title
+    </a>
+    </div>
+</div>
+<div class="row col-md-offset-1 col-md-10">
+</div>
+@if(@ViewBag.Comments.Count>0)
+{
+<div class="row col-md-offset-1 col-md-2">
+    Comments:
+</div>
+<table class="table col-md-6">
+
+    @foreach (var com in @ViewBag.Comments)
+    {
+        <tr >
+            <td><span>@com.CreationDate</span>
+            <div><a href="@Url.Action("ViewProfile", "Profile", new {id=com.profile.Id })">@com.profile.FirstName @com.profile.LastName</a></div>
+            
+            </td>
+            <td>@com.Text</td>
+        </tr>
+    }
+</table>
+    
+    
+    
+}
+    
+
+
+        @using (Html.BeginForm("CreateComment", "Article",  FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+        @Html.AntiForgeryToken()
+        
+        if (User.Identity.IsAuthenticated)
+        {    
+        <div>
+        @Html.ValidationSummary(true)
+            
+            <div>
+                <div class="form-group ">
+                    <div class="col-md-offset-2 col-md-6">
+                    <textarea rows="3" class="form-control" name ="Text"></textarea>
+                    @*@Html.TextAreaFor(model => model.ArticleText, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.ArticleText)
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="ArticleId" value ="@Model.Id">
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add comment" class="btn btn-default"/>
+                </div>
+            </div>
+        
+            </div>
+          }
+    }
+
+@*<div>
+    
+    @Html.Partial("ViewComments", )
+
+</div>*@

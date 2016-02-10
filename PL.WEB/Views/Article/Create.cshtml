@@ -1,0 +1,65 @@
+﻿@model PL.WEB.Models.CreateArticleModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create article</h2>
+<hr/>
+
+@using (Html.BeginForm("Create", "Article",  FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+    @Html.AntiForgeryToken()
+    <div>
+    @Html.ValidationSummary(true)
+
+
+        <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        
+            <div class="col-md-8">
+                @*@Html.EditorFor(model => model.Title)*@
+                <input class="form-control" name="Title"/>
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
+
+        <div class="form-group">
+                @Html.LabelFor(model => model.ArticleText, htmlAttributes: new { @class = "control-label col-md-2" })
+        
+            <div class="col-md-8">
+                <textarea rows="10" class="form-control" name ="ArticleText"></textarea>
+                @*@Html.TextAreaFor(model => model.ArticleText, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.ArticleText)
+            </div>
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BlogId)
+            @Html.ValidationMessageFor(model => model.BlogId)
+        </div>
+
+        <div class="form-group">
+                @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
+        
+            <div class="col-md-8">
+                <input class="form-control" name="Tags"/>
+                @*@Html.EditorFor(model => model.Tags, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.Tags)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default"/>
+            </div>
+        </div>
+        </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

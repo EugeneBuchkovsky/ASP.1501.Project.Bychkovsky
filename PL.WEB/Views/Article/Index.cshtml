@@ -1,0 +1,62 @@
+﻿@*@model IEnumerable<PL.WEB.Models.ArticleViewModel>*@
+@model PagedList.IPagedList<PL.WEB.Models.ArticleViewModel>
+@using PagedList.Mvc;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+}
+
+<h2>Last titles</h2>
+<hr/>
+
+@foreach (var t in Model)
+{
+    <ul>
+       <li class="lead">
+           <a href="@Url.Action("Details", new {t.Id})"> @Html.DisplayFor(modelItem => t.Title)</a>
+       </li>
+        @Html.DisplayFor(modelItem=>t.CreationDate) | 
+        Comments: @Html.DisplayFor(modelItem=>t.CommentsCount)
+    </ul>
+}
+
+<br />
+
+<div class="col-md-offset-1 small">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",  new { page }))
+</div>
+
+
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommentsCount)
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentsCount)
+            </td>
+        </tr>
+    }*@
+
+@*</table>*@

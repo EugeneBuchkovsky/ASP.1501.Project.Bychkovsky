@@ -1,0 +1,39 @@
+﻿@model PL.WEB.Models.ProfileViewModel
+
+@{
+    ViewBag.Title = "ViewProfile";
+}
+
+<h2 class="col-md-offset-1">Information about the user:</h2>
+<hr/>
+<table class="table">
+    <tbody>
+        <tr>
+            <td><span class="info-titles col-md-offset-1">Email:</span></td>  <td>@ViewBag.UserProfile.Email</td>
+        </tr>
+        <tr>
+            <td><span class="info-titles col-md-offset-1">Name: </span> </td>  <td>@Html.DisplayFor(modelItem => modelItem.FirstName)</td>
+        </tr>
+        <tr>
+            <td><span class="info-titles col-md-offset-1">Surname: </span> </td>  <td>@Html.DisplayFor(modelItem => modelItem.LastName)</td>
+        </tr>
+        <tr>
+            <td><span class="info-titles col-md-offset-1">Age: </span></td>  <td> @Html.DisplayFor(modelItem => modelItem.Age)</td>
+        </tr>
+        <tr>
+            <td><span class="info-titles col-md-offset-1">Creation date: </span></td>  <td> @Html.DisplayFor(modelItem => modelItem.CreationDate)</td>
+        </tr>
+    </tbody>
+</table>
+@if((User.Identity.IsAuthenticated) && (User.Identity.Name == ViewBag.UserProfile.Email))
+{
+    <a href="@Url.Action("UpdateProfile")">
+        <button type="button" class="btn btn-default btn-md btn-block">Edit profile</button>
+    </a>
+}
+@*<div>
+    @Html.ActionLink("Delete", "DeleteBlog")
+</div>*@
+<a href="@Url.Action("ViewBlogs", new {id = Model.Id })">
+<button type="button" class="btn btn-default btn-md btn-block">View blogs</button>
+</a>

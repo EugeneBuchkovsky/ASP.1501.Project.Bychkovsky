@@ -1,0 +1,42 @@
+﻿@model PL.WEB.Models.BlogViewModel
+
+@{
+    ViewBag.Title = "UpdateBlog";
+}
+<h2 class="col-md-offset-2">Edit blog</h2>
+<hr/>
+
+@using (Html.BeginForm("UpdateBlog", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        
+            <div class="col-md-8">
+                <input class="form-control" name="Title" value="@Model.Title"/>
+                @*@Html.TextAreaFor(model => model.Title, new { htmlAttributes = new { @class = "form-control col-md-4" } })*@
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default"/>
+            </div>
+        </div>
+}
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("Back to blogs", "ViewBlogs")
+        </div>
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
